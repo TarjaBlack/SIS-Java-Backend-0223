@@ -19,5 +19,6 @@ public class Main {
         adicao = n1 + n2;
         System.out.printf("O resultado da adição é: " + adicao);
 
+        sc.close(); // Destroi o objeto na memória RAM;
     }
 }
