@@ -8,9 +8,9 @@ public class Main {
         short idade = 19;
 
         // IF Simples
-//        if (idade >= 18) { // Executa quando o resultado do teste for TRUE.
-//            System.out.println("candidato apto ao exame de CNH.");
-//        }
+        if (idade >= 18) { // Executa quando o resultado do teste for TRUE.
+            System.out.println("candidato apto ao exame de CNH.");
+        }
 
         // IF Composto
         double salario = 980.52;
@@ -31,30 +31,32 @@ public class Main {
         System.out.print("Quantos dependentes: ");
         dependentes = sc.nextInt();
 
-//        // 1650.52
-//        if (sal <= 1903.98) {
-//            System.out.println("Contribuinte isento de IR.");
-//        }
-//        // 2100.50
-//        if (sal >= 1903.99 && sal <= 2826.65) {
-//            System.out.printf("Contribuinte com salário de R$ %.2f pagará 7.5%% de IR.%n", sal);
-//            System.out.printf("Com dedução de %d dependentes", dependentes);
-//        }
-//        // 3550.20
-//        if (sal >= 2826.66 && sal <= 3751.05) {
-//            System.out.printf("Contribuinte com salário de R$ %.2f pagará 15%% de IR.%n", sal);
-//            System.out.printf("Com dedução de %d dependentes", dependentes);
-//        }
-//        // 3955.00
-//        if (sal >= 3751.06 && sal <= 4664.68) {
-//            System.out.printf("Contribuinte com salário de R$ %.2f pagará 22.5%% de IR.%n", sal);
-//            System.out.printf("Com dedução de %d dependentes", dependentes);
-//        }
-//        // 5410.00
-//        if (sal >= 4664.69) {
-//            System.out.printf("Contribuinte com salário de R$ %.2f pagará 27.5%% de IR.%n", sal);
-//            System.out.printf("Com dedução de %d dependentes", dependentes);
-//        }
+        // 1650.52
+        if (sal <= 1903.98) {
+            System.out.println("Contribuinte isento de IR.");
+        }
+        // 2100.50
+        if (sal >= 1903.99 && sal <= 2826.65) {
+            System.out.printf("Contribuinte com salário de R$ %.2f pagará 7.5%% de IR.%n", sal);
+            System.out.printf("Com dedução de %d dependentes.", dependentes);
+        }
+        // 3550.20
+        if (sal >= 2826.66 && sal <= 3751.05) {
+            System.out.printf("Contribuinte com salário de R$ %.2f pagará 15%% de IR.%n", sal);
+            System.out.printf("Com dedução de %d dependentes.", dependentes);
+        }
+        // 3955.00
+        if (sal >= 3751.06 && sal <= 4664.68) {
+            System.out.printf("Contribuinte com salário de R$ %.2f pagará 22.5%% de IR.%n", sal);
+            System.out.printf("Com dedução de %d dependentes.", dependentes);
+        }
+        // 5410.00
+        if (sal >= 4664.69) {
+            System.out.printf("Contribuinte com salário de R$ %.2f pagará 27.5%% de IR.%n", sal);
+            System.out.printf("Com dedução de %d dependentes.", dependentes);
+        }
+
+        System.out.println("");
 
         // IF aninhado
         if (sal <= 1903.98) {
