@@ -145,16 +145,108 @@ public class Main {
         /*
         1.4.1 Construa um algoritmo que leia os salários de 15 funcionários e ao fim mostre a média salarial dos mesmos.
          */
-        double salario, acumulador = 0.0, mediaSalarial;
+//        double salario, acumulador = 0.0, mediaSalarial;
+//
+//        for (int i = 1; i <= 3; i++) {
+//            System.out.print("Digite o salário: ");
+//            salario = sc.nextDouble();
+//            acumulador = acumulador + salario;
+//        }
+//
+//        mediaSalarial = acumulador / 3;
+//
+//        System.out.printf("A média dos salários dos funcionários é de: %.2f", mediaSalarial);
 
-        for (int i = 1; i <= 3; i++) {
-            System.out.println("Digite o salário: ");
-            salario = sc.nextDouble();
-            acumulador = acumulador + salario;
+        /*
+        1.5.1 Construa um algoritmo que contenha um array com todas as alíquotas do
+        Imposto de Renda de Pessoa Física, são elas {0.0, 7.5, 15.0, 22.5, 27.5}.
+        Logo após os imprima no console.
+        */
+
+//        double[] aliquotas = {0.0, 7.5, 15.0, 22.5, 27.5}; // 0 1 2 3 4
+//
+//        for (double aliq : aliquotas) {
+//            System.out.println(aliq + "%");
+//        }
+
+        // Métodos == Funções
+
+        /*
+        * 1.6.1 Construa um algoritmo que receba um salário bruto de um funcionário e envie
+        para uma função que calcule em qual alíquota de Imposto de Renda de Pessoa Física
+        o mesmo estará enquadrado com base nos dados abaixo:
+        *
+         até R$ 1.903,98 – Isento
+         de R$ 1.903,99 a R$ 2.826,65 – 7,5%
+         de R$ 2.826,66 a R$ 3.751,05 – 15.0%
+         de R$ 3.751,06 a R$ 4.664,68 – 22,5%
+         acima de R$ 4.664,68 – 27,5%
+        Caso seja isento informe também que será descontado 6% de vale-transporte em
+        relação ao salário informado.
+        * */
+
+//        double salario;
+//
+//        System.out.print("Informe o salário bruto do funcionário: ");
+//        salario = sc.nextDouble(); // 4210,65
+//
+//        // Uma função ou método que calculará a alíquota do contribuinte.
+//        calculaImposto(salario);
+
+        /*
+        1.7.1 Construa um algoritmo que possua um array de 5 (cinco posições). Logo após
+        adicione as seguintes marcas: {“Ford”, “Chevrolet”, “Volkswagen”, “Fiat”, “Renault”}.
+        Depois busque dentro do vetor todas as palavras (pelas suas posições) e conte
+        quantas letras tem cada uma delas. Ao final imprima na tela qual delas possui a maior
+        quantidade de letras e quantas elas são.
+         */
+
+        String[] marcas = new String[5];
+        marcas[0] = "Ford"; // 4
+        marcas[1] = "Chevrolet"; // 9
+        marcas[2] = "Volkswagen"; // 10
+        marcas[3] = "Fiat"; // 4
+        marcas[4] = "Renault"; // 7
+
+        int maior = 0, indice = 0;
+
+        for (int i = 0; i <= 4; i++) {
+            int qtdeLetras = marcas[i].length();
+            // System.out.println("Quantidade de letras: " + qtdeLetras);
+            if (qtdeLetras > maior) {
+                maior = qtdeLetras; // 10
+                indice = i; // 2
+            }
         }
 
-        mediaSalarial = acumulador / 3;
+        System.out.print("A marca com a maior quatidade de letras é a: " + marcas[indice]);
+        System.out.print("\nEla possui " + maior + " letras");
+    } // Fecha o método Main
 
-        System.out.printf("A média dos salários dos funcionários é de: %.2f", mediaSalarial);
-    }
-}
+    // Criar um método customizado
+//    public static void calculaImposto(double sal) {
+//
+//        if (sal > 0) {
+//
+//            if (sal <= 1903.98) {
+//                System.out.println("O contribuinte está isento de IR.");
+//                System.out.println("Será descontado 6% de vale-transporte.");
+//            } else if (sal <= 2826.65) {
+//                System.out.println("O contribuinte será tributado em 7.5%.");
+//            } else if (sal <= 3751.05) {
+//                System.out.println("O contribuinte será tributado em 15%.");
+//            } else if (sal <= 4664.68) {
+//                System.out.println("O contribuinte será tributado em 22.5%.");
+//            } else {
+//                System.out.println("O contribuinte será tributado em 27.5%.");
+//            }
+//
+//        } else {
+//
+//            System.out.print("ERRO: Salário inválido!");
+//
+//        }
+//
+//    }
+
+} // Fecha a classe Main
