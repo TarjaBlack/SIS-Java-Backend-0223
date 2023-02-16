@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Objects;
+
 public class Carrinho {
 
     // Atributos
@@ -72,6 +74,20 @@ public class Carrinho {
     public double alterarValorItem(double novoValor) {
         setValor(novoValor);
         return getValor();
+    }
+
+    // Equals e hashcode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Carrinho carrinho = (Carrinho) o;
+        return id == carrinho.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
