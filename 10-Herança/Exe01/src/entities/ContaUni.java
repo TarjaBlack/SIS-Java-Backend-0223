@@ -1,5 +1,6 @@
 package entities;
 
+// Subclasses ou classes filhas
 public class ContaUni extends ContaCorrente {
 
     private String matricula;

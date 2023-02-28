@@ -1,5 +1,6 @@
 package entities;
 
+// Subclasses ou classes filhas
 public class ContaPJ extends ContaCorrente {
 
     private String cnpj;

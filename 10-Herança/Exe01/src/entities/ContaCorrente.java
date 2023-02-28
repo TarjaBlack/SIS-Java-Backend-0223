@@ -2,6 +2,7 @@ package entities;
 
 import java.util.Objects;
 
+// Superclasse ou classe pai/mãe
 public class ContaCorrente {
 
     private int id;
