@@ -1,4 +1,4 @@
-import Exceptions.ClienteException;
+import exceptions.ClienteException;
 import entities.Cliente;
 
 public class Main {

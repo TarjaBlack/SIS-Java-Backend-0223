@@ -1,6 +1,6 @@
 package entities;
 
-import Exceptions.ClienteException;
+import exceptions.ClienteException;
 
 public class Cliente {
 
