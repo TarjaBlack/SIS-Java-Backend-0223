@@ -42,6 +42,10 @@ public abstract class Professor {
     // método abstrato
     public abstract double calcularSalario(double base, double percDesc);
 
+    public void mostrarSalario() {
+        System.out.println("Salário: " + calcularSalario(1000.0, 0.0));
+    }
+
     @Override
     public String toString() {
         return "Professor{" +
