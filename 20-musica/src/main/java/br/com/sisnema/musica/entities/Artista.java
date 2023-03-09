@@ -1,9 +1,19 @@
 package br.com.sisnema.musica.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Artista {
+@Entity
+public class Artista implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremento
     private Long id;
     private String nome;
     private boolean banda;
