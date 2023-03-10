@@ -1,14 +1,12 @@
 package br.com.sisnema.musica.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name = "tb_artista")
 public class Artista implements Serializable {
     private static final long serialVersionUID = 1L;
 
