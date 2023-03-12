@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "tb_artista")
