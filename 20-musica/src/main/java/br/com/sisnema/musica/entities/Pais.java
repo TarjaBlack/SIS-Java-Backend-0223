@@ -6,23 +6,21 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_artista")
-public class Artista implements Serializable {
+@Table(name = "tb_pais")
+public class Pais implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremento
     private Long id;
     private String nome;
-    private boolean banda;
 
-    public Artista() {
+    public Pais() {
     }
 
-    public Artista(Long id, String nome, boolean banda) {
+    public Pais(Long id, String nome) {
         this.id = id;
         this.nome = nome;
-        this.banda = banda;
     }
 
     public Long getId() {
@@ -41,20 +39,12 @@ public class Artista implements Serializable {
         this.nome = nome;
     }
 
-    public boolean isBanda() {
-        return banda;
-    }
-
-    public void setBanda(boolean banda) {
-        this.banda = banda;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Artista artista = (Artista) o;
-        return Objects.equals(id, artista.id);
+        Pais pais = (Pais) o;
+        return Objects.equals(id, pais.id);
     }
 
     @Override
@@ -64,10 +54,9 @@ public class Artista implements Serializable {
 
     @Override
     public String toString() {
-        return "Artista{" +
+        return "Pais{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", banda=" + banda +
                 '}';
     }
 }
