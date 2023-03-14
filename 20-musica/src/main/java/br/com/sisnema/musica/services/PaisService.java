@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaisService {
@@ -21,9 +22,9 @@ public class PaisService {
     private PaisRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Pais> procurarTodos() {
-        List<Pais> paisList = repository.findAll();
-        return paisList;
+    public List<PaisDto> procurarTodos() {
+        List<Pais> list = repository.findAll();
+        return list.stream().map(x -> new PaisDto(x)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

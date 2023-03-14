@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtistaService {
@@ -19,10 +20,10 @@ public class ArtistaService {
     private ArtistaRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Artista> procurarTodos() {
-        List<Artista> artistaList = repository.findAll();
-        return artistaList;
-    }
+    public List<ArtistaDto> procurarTodos() {
+        List<Artista> list = repository.findAll();
+        return list.stream().map(x -> new ArtistaDto(x)).collect(Collectors.toList());
+    } // Expressão lambda
 
     @Transactional(readOnly = true)
     public ArtistaDto procurarPorId(Long id) {
@@ -31,7 +32,16 @@ public class ArtistaService {
         return new ArtistaDto(entidade);
     }
 
-    // Cadastrar
+    @Transactional
+    public ArtistaDto inserir(ArtistaDto dto) { // null "Foo Fighters" true
+        Artista entidade = new Artista(); // null "Foo Fighters" true
+        entidade.setNome(dto.getNome()); // null "Foo Fighters" true
+        entidade.setBanda(dto.isBanda()); // null "Foo Fighters" true
+
+        // Salva no BD e devolve 5 "Foo Fighters" true
+        entidade = repository.save(entidade);
+        return new ArtistaDto(entidade);
+    }
 
     // Atualizar
 

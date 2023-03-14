@@ -7,6 +7,7 @@ import br.com.sisnema.musica.entities.Pais;
 import br.com.sisnema.musica.services.ArtistaService;
 import br.com.sisnema.musica.services.PaisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,15 +20,15 @@ public class PaisController {
     private PaisService paisService;
 
     @GetMapping
-    public List<Pais> buscarTodos() {
-        List<Pais> paisList = paisService.procurarTodos();
-        return paisList;
+    public ResponseEntity<List<PaisDto>> buscarTodos() {
+        List<PaisDto> list = paisService.procurarTodos();
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public PaisDto buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<PaisDto> buscarPorId(@PathVariable Long id) {
         PaisDto dto = paisService.procurarPorId(id);
-        return dto;
+        return ResponseEntity.ok().body(dto);
     }
 
     // Cadastrar

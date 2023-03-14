@@ -4,6 +4,7 @@ import br.com.sisnema.musica.dtos.ArtistaDto;
 import br.com.sisnema.musica.entities.Artista;
 import br.com.sisnema.musica.services.ArtistaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,15 +17,15 @@ public class ArtistaController {
     private ArtistaService artistaService;
 
     @GetMapping
-    public List<Artista> buscarTodos() {
-        List<Artista> artistaList = artistaService.procurarTodos();
-        return artistaList;
+    public ResponseEntity<List<ArtistaDto>> buscarTodos() {
+        List<ArtistaDto> list = artistaService.procurarTodos();
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ArtistaDto buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ArtistaDto> buscarPorId(@PathVariable Long id) {
         ArtistaDto dto = artistaService.procurarPorId(id);
-        return dto;
+        return ResponseEntity.ok().body(dto);
     }
 
     // Cadastrar
@@ -32,8 +33,9 @@ public class ArtistaController {
     // Atualizar
 
     @DeleteMapping(value = "/{id}")
-    public void excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
         artistaService.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
