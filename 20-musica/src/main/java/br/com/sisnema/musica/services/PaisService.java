@@ -34,7 +34,15 @@ public class PaisService {
         return new PaisDto(entidade);
     }
 
-    // Cadastrar
+    @Transactional
+    public PaisDto inserir(PaisDto dto) { // null "Uruguai"
+        Pais entidade = new Pais(); // null "Uruguai"
+        entidade.setNome(dto.getNome()); // null "Uruguai"
+
+        // Salva no BD e devolve 6 "Uruguai"
+        entidade = repository.save(entidade);
+        return new PaisDto(entidade);
+    }
 
     // Atualizar
 

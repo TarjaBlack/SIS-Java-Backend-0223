@@ -9,7 +9,9 @@ import br.com.sisnema.musica.services.PaisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,27 +19,33 @@ import java.util.List;
 public class PaisController {
 
     @Autowired
-    private PaisService paisService;
+    private PaisService service;
 
     @GetMapping
     public ResponseEntity<List<PaisDto>> buscarTodos() {
-        List<PaisDto> list = paisService.procurarTodos();
+        List<PaisDto> list = service.procurarTodos();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<PaisDto> buscarPorId(@PathVariable Long id) {
-        PaisDto dto = paisService.procurarPorId(id);
+        PaisDto dto = service.procurarPorId(id);
         return ResponseEntity.ok().body(dto);
     }
 
-    // Cadastrar
+    @PostMapping
+    public ResponseEntity<PaisDto> inserir(@RequestBody PaisDto dto) {
+        PaisDto dtoRec = service.inserir(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dtoRec.getId()).toUri();
+        return ResponseEntity.created(uri).body(dtoRec);
+    }
 
     // Atualizar
 
     @DeleteMapping(value = "/{id}")
     public void excluir(@PathVariable Long id) {
-        paisService.excluir(id);
+        service.excluir(id);
     }
 
 }
