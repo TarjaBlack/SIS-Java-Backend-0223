@@ -2,6 +2,7 @@ package br.com.sisnema.musica.services;
 
 import br.com.sisnema.musica.dtos.ArtistaDto;
 import br.com.sisnema.musica.entities.Artista;
+import br.com.sisnema.musica.entities.Pais;
 import br.com.sisnema.musica.repositories.ArtistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class ArtistaService {
         Artista entidade = new Artista(); // null "Foo Fighters" true
         entidade.setNome(dto.getNome()); // null "Foo Fighters" true
         entidade.setBanda(dto.isBanda()); // null "Foo Fighters" true
-
+        entidade.setPais(new Pais(dto.getPais_id()));
         // Salva no BD e devolve 5 "Foo Fighters" true
         entidade = repository.save(entidade);
         return new ArtistaDto(entidade);
@@ -48,6 +49,7 @@ public class ArtistaService {
         Artista entidade = repository.getReferenceById(id);
         entidade.setNome(dto.getNome());
         entidade.setBanda(dto.isBanda());
+        entidade.setPais(new Pais(dto.getPais_id()));
         entidade = repository.save(entidade);
         return new ArtistaDto(entidade);
     }

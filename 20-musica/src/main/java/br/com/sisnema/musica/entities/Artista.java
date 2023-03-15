@@ -24,10 +24,11 @@ public class Artista implements Serializable {
     public Artista() {
     }
 
-    public Artista(Long id, String nome, boolean banda) {
+    public Artista(Long id, String nome, boolean banda, Pais pais) {
         this.id = id;
         this.nome = nome;
         this.banda = banda;
+        this.pais = pais;
     }
 
     public Long getId() {
@@ -54,6 +55,14 @@ public class Artista implements Serializable {
         this.banda = banda;
     }
 
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,6 +82,7 @@ public class Artista implements Serializable {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", banda=" + banda +
+                ", pais=" + pais +
                 '}';
     }
 }
