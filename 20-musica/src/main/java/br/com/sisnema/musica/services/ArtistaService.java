@@ -43,7 +43,14 @@ public class ArtistaService {
         return new ArtistaDto(entidade);
     }
 
-    // Atualizar
+    @Transactional
+    public ArtistaDto atualizar(Long id, ArtistaDto dto) {
+        Artista entidade = repository.getReferenceById(id);
+        entidade.setNome(dto.getNome());
+        entidade.setBanda(dto.isBanda());
+        entidade = repository.save(entidade);
+        return new ArtistaDto(entidade);
+    }
 
     public void excluir(Long id) {
         repository.deleteById(id);

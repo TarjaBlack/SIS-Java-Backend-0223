@@ -37,7 +37,11 @@ public class ArtistaController {
         return ResponseEntity.created(uri).body(dtoRec);
     }
 
-    // Atualizar
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ArtistaDto> atualizar(@PathVariable Long id, @RequestBody ArtistaDto dto) {
+        ArtistaDto dtoRec = service.atualizar(id, dto);
+        return ResponseEntity.ok().body(dtoRec);
+    }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {

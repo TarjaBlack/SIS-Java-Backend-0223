@@ -44,7 +44,13 @@ public class PaisService {
         return new PaisDto(entidade);
     }
 
-    // Atualizar
+    @Transactional
+    public PaisDto atualizar(Long id, PaisDto dto) {
+        Pais entidade = repository.getReferenceById(id);
+        entidade.setNome(dto.getNome());
+        entidade = repository.save(entidade);
+        return new PaisDto(entidade);
+    }
 
     public void excluir(Long id) {
         repository.deleteById(id);

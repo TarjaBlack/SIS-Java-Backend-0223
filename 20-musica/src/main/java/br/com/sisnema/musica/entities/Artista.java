@@ -16,6 +16,11 @@ public class Artista implements Serializable {
     private String nome;
     private boolean banda;
 
+    // Uma relação @ManyToOne com Pais
+    @ManyToOne
+    @JoinColumn(name = "pais_id")
+    private Pais pais;
+
     public Artista() {
     }
 

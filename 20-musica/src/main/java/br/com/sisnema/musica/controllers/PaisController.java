@@ -41,7 +41,11 @@ public class PaisController {
         return ResponseEntity.created(uri).body(dtoRec);
     }
 
-    // Atualizar
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<PaisDto> atualizar(@PathVariable Long id, @RequestBody PaisDto dto) {
+        PaisDto dtoRec = service.atualizar(id, dto);
+        return ResponseEntity.ok().body(dtoRec);
+    }
 
     @DeleteMapping(value = "/{id}")
     public void excluir(@PathVariable Long id) {
