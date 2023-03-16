@@ -1,8 +1,11 @@
 package br.com.sisnema.musica.dtos;
 
+import br.com.sisnema.musica.entities.Album;
 import br.com.sisnema.musica.entities.Artista;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArtistaDto implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,6 +14,7 @@ public class ArtistaDto implements Serializable {
     private String nome;
     private boolean banda;
     private Long pais_id;
+    private List<AlbumDto> albumDtoList = new ArrayList<>();
 
     public ArtistaDto() {
     }
@@ -23,10 +27,15 @@ public class ArtistaDto implements Serializable {
     }
 
     public ArtistaDto(Artista entidade) {
-        id = entidade.getId();
-        nome = entidade.getNome();
-        banda = entidade.isBanda();
-        pais_id = entidade.getPais().getId();
+        this.id = entidade.getId();
+        this.nome = entidade.getNome();
+        this.banda = entidade.isBanda();
+        this.pais_id = entidade.getPais().getId();
+    }
+
+    public ArtistaDto(Artista entidade, List<Album> albunsRec) {
+        this(entidade); // Este this chama a linha 29
+        albunsRec.forEach(alb -> this.albumDtoList.add(new AlbumDto(alb))); // 0 1 2 ...
     }
 
     public Long getId() {
@@ -59,5 +68,9 @@ public class ArtistaDto implements Serializable {
 
     public void setPais_id(Long pais_id) {
         this.pais_id = pais_id;
+    }
+
+    public List<AlbumDto> getAlbumDtoList() {
+        return albumDtoList;
     }
 }

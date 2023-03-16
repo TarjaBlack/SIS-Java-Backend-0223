@@ -29,6 +29,12 @@ public class ArtistaController {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping(value = "/{id}/albuns")
+    public ResponseEntity<ArtistaDto> buscarPorIdComAlbuns(@PathVariable Long id) {
+        ArtistaDto dto = service.procurarPorIdComAlbuns(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<ArtistaDto> inserir(@RequestBody ArtistaDto dto) {
         ArtistaDto dtoRec = service.inserir(dto);

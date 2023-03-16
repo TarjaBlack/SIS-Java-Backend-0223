@@ -33,6 +33,13 @@ public class ArtistaService {
         return new ArtistaDto(entidade);
     }
 
+    @Transactional(readOnly = true)
+    public ArtistaDto procurarPorIdComAlbuns(Long id) {
+        Optional<Artista> objeto = repository.findById(id);
+        Artista entidade = objeto.get(); // Retira o Artista do Optional
+        return new ArtistaDto(entidade, entidade.getAlbumList());
+    }
+
     @Transactional
     public ArtistaDto inserir(ArtistaDto dto) { // null "Foo Fighters" true
         Artista entidade = new Artista(); // null "Foo Fighters" true
