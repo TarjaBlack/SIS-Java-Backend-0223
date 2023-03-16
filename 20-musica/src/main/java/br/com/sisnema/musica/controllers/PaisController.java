@@ -33,6 +33,12 @@ public class PaisController {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping(value = "/{id}/artistas")
+    public ResponseEntity<PaisDto> buscarPorIdComArtistas(@PathVariable Long id) {
+        PaisDto dto = service.procurarPorIdComArtistas(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<PaisDto> inserir(@RequestBody PaisDto dto) {
         PaisDto dtoRec = service.inserir(dto);

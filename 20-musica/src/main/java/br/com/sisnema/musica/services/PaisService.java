@@ -32,6 +32,13 @@ public class PaisService {
         return new PaisDto(entidade);
     }
 
+    @Transactional(readOnly = true)
+    public PaisDto procurarPorIdComArtistas(Long id) {
+        Optional<Pais> objeto = repository.findById(id);
+        Pais entidade = objeto.get(); // Retira o Artista do Optional
+        return new PaisDto(entidade, entidade.getArtistaList());
+    }
+
     @Transactional
     public PaisDto inserir(PaisDto dto) { // null "Uruguai"
         Pais entidade = new Pais(); // null "Uruguai"

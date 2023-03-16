@@ -1,14 +1,18 @@
 package br.com.sisnema.musica.dtos;
 
+import br.com.sisnema.musica.entities.Artista;
 import br.com.sisnema.musica.entities.Pais;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaisDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
     private String nome;
+    private List<ArtistaDto> artistaDtoList = new ArrayList<>();
 
     public PaisDto() {
     }
@@ -21,6 +25,11 @@ public class PaisDto implements Serializable {
     public PaisDto(Pais entidade) {
         id = entidade.getId();
         nome = entidade.getNome();
+    }
+
+    public PaisDto(Pais entidade, List<Artista> artistasRec) {
+        this(entidade);
+        artistasRec.forEach(art -> this.artistaDtoList.add(new ArtistaDto(art)));
     }
 
     public Long getId() {
@@ -39,4 +48,7 @@ public class PaisDto implements Serializable {
         this.nome = nome;
     }
 
+    public List<ArtistaDto> getArtistaDtoList() {
+        return artistaDtoList;
+    }
 }
