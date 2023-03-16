@@ -3,6 +3,8 @@ package br.com.sisnema.musica.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,7 +23,14 @@ public class Artista implements Serializable {
     @JoinColumn(name = "pais_id")
     private Pais pais;
 
+    @OneToMany(mappedBy = "artista")
+    private List<Album> albumList = new ArrayList<>();
+
     public Artista() {
+    }
+
+    public Artista(Long id) {
+        this.id = id;
     }
 
     public Artista(Long id, String nome, boolean banda, Pais pais) {
@@ -61,6 +70,10 @@ public class Artista implements Serializable {
 
     public void setPais(Pais pais) {
         this.pais = pais;
+    }
+
+    public List<Album> getAlbumList() {
+        return albumList;
     }
 
     @Override

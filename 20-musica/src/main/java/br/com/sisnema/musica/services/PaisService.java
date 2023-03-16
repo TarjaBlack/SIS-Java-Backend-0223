@@ -1,8 +1,6 @@
 package br.com.sisnema.musica.services;
 
-import br.com.sisnema.musica.dtos.ArtistaDto;
 import br.com.sisnema.musica.dtos.PaisDto;
-import br.com.sisnema.musica.entities.Artista;
 import br.com.sisnema.musica.entities.Pais;
 import br.com.sisnema.musica.repositories.PaisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
