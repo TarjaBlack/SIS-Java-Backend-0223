@@ -34,3 +34,7 @@ INSERT INTO tb_instrumento (nome, obs) VALUES ('Trompete', 'O trompete surgiu em
 
 INSERT INTO tb_musico (nome, sobrenome, data_nasc) VALUES ('James', 'Hetfield', '1965-02-25');
 INSERT INTO tb_musico (nome, sobrenome, data_nasc) VALUES ('Lars', 'Ulrich', '1969-06-14');
+
+INSERT INTO tb_musico_instrumento (musico_id, instrumento_id) VALUES (1L, 1L);
+INSERT INTO tb_musico_instrumento (musico_id, instrumento_id) VALUES (1L, 2L);
+INSERT INTO tb_musico_instrumento (musico_id, instrumento_id) VALUES (2L, 5L);

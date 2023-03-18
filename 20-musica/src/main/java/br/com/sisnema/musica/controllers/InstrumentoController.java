@@ -1,7 +1,7 @@
 package br.com.sisnema.musica.controllers;
 
-import br.com.sisnema.musica.dtos.PaisDto;
-import br.com.sisnema.musica.services.PaisService;
+import br.com.sisnema.musica.dtos.InstrumentoDto;
+import br.com.sisnema.musica.services.InstrumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,41 +11,35 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/paises")
-public class PaisController {
+@RequestMapping(value = "/v1/instrumentos")
+public class InstrumentoController {
 
     @Autowired
-    private PaisService service;
+    private InstrumentoService service;
 
     @GetMapping
-    public ResponseEntity<List<PaisDto>> buscarTodos() {
-        List<PaisDto> list = service.procurarTodos();
+    public ResponseEntity<List<InstrumentoDto>> buscarTodos() {
+        List<InstrumentoDto> list = service.procurarTodos();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PaisDto> buscarPorId(@PathVariable Long id) {
-        PaisDto dto = service.procurarPorId(id);
-        return ResponseEntity.ok().body(dto);
-    }
-
-    @GetMapping(value = "/{id}/artistas")
-    public ResponseEntity<PaisDto> buscarPorIdComArtistas(@PathVariable Long id) {
-        PaisDto dto = service.procurarPorIdComArtistas(id);
+    public ResponseEntity<InstrumentoDto> buscarPorId(@PathVariable Long id) {
+        InstrumentoDto dto = service.procurarPorId(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-    public ResponseEntity<PaisDto> inserir(@RequestBody PaisDto dto) {
-        PaisDto dtoRec = service.inserir(dto);
+    public ResponseEntity<InstrumentoDto> inserir(@RequestBody InstrumentoDto dto) {
+        InstrumentoDto dtoRec = service.inserir(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dtoRec.getId()).toUri();
         return ResponseEntity.created(uri).body(dtoRec);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PaisDto> atualizar(@PathVariable Long id, @RequestBody PaisDto dto) {
-        PaisDto dtoRec = service.atualizar(id, dto);
+    public ResponseEntity<InstrumentoDto> atualizar(@PathVariable Long id, @RequestBody InstrumentoDto dto) {
+        InstrumentoDto dtoRec = service.atualizar(id, dto);
         return ResponseEntity.ok().body(dtoRec);
     }
 
