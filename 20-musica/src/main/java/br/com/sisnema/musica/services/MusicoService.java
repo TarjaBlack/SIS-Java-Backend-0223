@@ -1,7 +1,10 @@
 package br.com.sisnema.musica.services;
 
+import br.com.sisnema.musica.dtos.InstrumentoDto;
 import br.com.sisnema.musica.dtos.MusicoDto;
+import br.com.sisnema.musica.entities.Instrumento;
 import br.com.sisnema.musica.entities.Musico;
+import br.com.sisnema.musica.repositories.InstrumentoRepository;
 import br.com.sisnema.musica.repositories.MusicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,8 @@ public class MusicoService {
     // estarão disponíveis dentro do MusicoService
     @Autowired
     private MusicoRepository repository;
+    @Autowired
+    private InstrumentoRepository instrumentoRepository;
 
     @Transactional(readOnly = true)
     public List<MusicoDto> procurarTodos() {
@@ -35,9 +40,7 @@ public class MusicoService {
     @Transactional
     public MusicoDto inserir(MusicoDto dto) {
         Musico entidade = new Musico();
-        entidade.setNome(dto.getNome());
-        entidade.setSobrenome(dto.getSobrenome());
-        entidade.setDataNasc(dto.getDataNasc());
+        copiarDtoParaEntidade(dto, entidade);
         entidade = repository.save(entidade);
         return new MusicoDto(entidade);
     }
@@ -45,9 +48,7 @@ public class MusicoService {
     @Transactional
     public MusicoDto atualizar(Long id, MusicoDto dto) {
         Musico entidade = repository.getReferenceById(id);
-        entidade.setNome(dto.getNome());
-        entidade.setSobrenome(dto.getSobrenome());
-        entidade.setDataNasc(dto.getDataNasc());
+        copiarDtoParaEntidade(dto, entidade);
         entidade = repository.save(entidade);
         return new MusicoDto(entidade);
     }
@@ -57,4 +58,15 @@ public class MusicoService {
         // No futuro vamos criar exceções.
     }
 
+    private void copiarDtoParaEntidade(MusicoDto dto, Musico entidade) {
+        entidade.setNome(dto.getNome());
+        entidade.setSobrenome(dto.getSobrenome());
+        entidade.setDataNasc(dto.getDataNasc());
+
+        entidade.getInstrumentos().clear();
+        for (InstrumentoDto instDto : dto.getInstrumentoDtos()) { // 1 2
+            Instrumento inst = instrumentoRepository.getReferenceById(instDto.getId());
+            entidade.getInstrumentos().add(inst);
+        }
+    }
 }

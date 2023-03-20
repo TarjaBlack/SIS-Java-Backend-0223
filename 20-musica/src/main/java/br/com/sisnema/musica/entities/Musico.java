@@ -20,7 +20,7 @@ public class Musico implements Serializable {
     private String sobrenome;
     private LocalDate dataNasc;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_musico_instrumento",
             joinColumns = @JoinColumn(name = "musico_id"),
             inverseJoinColumns = @JoinColumn(name = "instrumento_id"))
