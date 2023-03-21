@@ -14,6 +14,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,7 +38,9 @@ public class MusicoService {
     @Transactional(readOnly = true)
     public MusicoDto procurarPorId(Long id) {
         Optional<Musico> objeto = repository.findById(id);
-        Musico entidade = objeto.get();
+        //Musico entidade = objeto.get();
+        Musico entidade = objeto.orElseThrow(() ->
+                new RecursoNaoEncontrado("O ID " + id + " não existe. Camada de serviço."));
         return new MusicoDto(entidade);
     }
     
@@ -51,10 +54,15 @@ public class MusicoService {
 
     @Transactional
     public MusicoDto atualizar(Long id, MusicoDto dto) {
-        Musico entidade = repository.getReferenceById(id);
-        copiarDtoParaEntidade(dto, entidade);
-        entidade = repository.save(entidade);
-        return new MusicoDto(entidade);
+        try {
+            Musico entidade = repository.getReferenceById(id);
+            copiarDtoParaEntidade(dto, entidade);
+            entidade = repository.save(entidade);
+            return new MusicoDto(entidade);
+        }
+        catch (EntityNotFoundException e) {
+            throw new RecursoNaoEncontrado("Falha na atualização. O ID " + id + " não existe. Camada de serviço.");
+        }
     }
 
     public void excluir(Long id) {

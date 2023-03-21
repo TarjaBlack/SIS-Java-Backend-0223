@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,14 +34,18 @@ public class ArtistaService {
     @Transactional(readOnly = true)
     public ArtistaDto procurarPorId(Long id) {
         Optional<Artista> objeto = repository.findById(id);
-        Artista entidade = objeto.get(); // Retira o Artista do Optional
+        //Artista entidade = objeto.get(); // Retira o Artista do Optional
+        Artista entidade = objeto.orElseThrow(() ->
+                new RecursoNaoEncontrado("O ID " + id + " não existe. Camada de serviço."));
         return new ArtistaDto(entidade);
     }
 
     @Transactional(readOnly = true)
     public ArtistaDto procurarPorIdComAlbuns(Long id) {
         Optional<Artista> objeto = repository.findById(id);
-        Artista entidade = objeto.get(); // Retira o Artista do Optional
+        //Artista entidade = objeto.get(); // Retira o Artista do Optional
+        Artista entidade = objeto.orElseThrow(() ->
+                new RecursoNaoEncontrado("O ID " + id + " não existe. Camada de serviço."));
         return new ArtistaDto(entidade, entidade.getAlbumList());
     }
 
@@ -57,12 +62,17 @@ public class ArtistaService {
 
     @Transactional
     public ArtistaDto atualizar(Long id, ArtistaDto dto) {
-        Artista entidade = repository.getReferenceById(id);
-        entidade.setNome(dto.getNome());
-        entidade.setBanda(dto.isBanda());
-        entidade.setPais(new Pais(dto.getPais_id()));
-        entidade = repository.save(entidade);
-        return new ArtistaDto(entidade);
+        try {
+            Artista entidade = repository.getReferenceById(id);
+            entidade.setNome(dto.getNome());
+            entidade.setBanda(dto.isBanda());
+            entidade.setPais(new Pais(dto.getPais_id()));
+            entidade = repository.save(entidade);
+            return new ArtistaDto(entidade);
+        }
+        catch (EntityNotFoundException e) {
+            throw new RecursoNaoEncontrado("Falha na atualização. O ID " + id + " não existe. Camada de serviço.");
+        }
     }
 
     public void excluir(Long id) {

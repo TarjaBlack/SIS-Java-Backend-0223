@@ -1,6 +1,7 @@
 package br.com.sisnema.musica.services;
 
 import br.com.sisnema.musica.dtos.PaisDto;
+import br.com.sisnema.musica.entities.Musico;
 import br.com.sisnema.musica.entities.Pais;
 import br.com.sisnema.musica.repositories.PaisRepository;
 import br.com.sisnema.musica.services.exceptions.IntegridadeBD;
@@ -11,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +34,9 @@ public class PaisService {
     @Transactional(readOnly = true)
     public PaisDto procurarPorId(Long id) {
         Optional<Pais> objeto = repository.findById(id);
-        Pais entidade = objeto.get(); // Retira o Artista do Optional
+        //Pais entidade = objeto.get(); // Retira o Artista do Optional
+        Pais entidade = objeto.orElseThrow(() ->
+                new RecursoNaoEncontrado("O ID " + id + " não existe. Camada de serviço."));
         return new PaisDto(entidade);
     }
 
@@ -55,10 +59,15 @@ public class PaisService {
 
     @Transactional
     public PaisDto atualizar(Long id, PaisDto dto) {
-        Pais entidade = repository.getReferenceById(id);
-        entidade.setNome(dto.getNome());
-        entidade = repository.save(entidade);
-        return new PaisDto(entidade);
+        try {
+            Pais entidade = repository.getReferenceById(id);
+            entidade.setNome(dto.getNome());
+            entidade = repository.save(entidade);
+            return new PaisDto(entidade);
+        }
+        catch (EntityNotFoundException e) {
+            throw new RecursoNaoEncontrado("Falha na atualização. O ID " + id + " não existe. Camada de serviço.");
+        }
     }
 
     public void excluir(Long id) {
