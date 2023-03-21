@@ -4,7 +4,11 @@ import br.com.sisnema.musica.dtos.ArtistaDto;
 import br.com.sisnema.musica.entities.Artista;
 import br.com.sisnema.musica.entities.Pais;
 import br.com.sisnema.musica.repositories.ArtistaRepository;
+import br.com.sisnema.musica.services.exceptions.IntegridadeBD;
+import br.com.sisnema.musica.services.exceptions.RecursoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,8 +66,15 @@ public class ArtistaService {
     }
 
     public void excluir(Long id) {
-        repository.deleteById(id);
-        // No futuro vamos criar exceções.
+        try {
+            repository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new RecursoNaoEncontrado("Falha na deleção. O ID " + id + " não existe. Camada de serviço.");
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new IntegridadeBD("Violação de integridade no banco de dados.");
+        }
     }
 
 }
