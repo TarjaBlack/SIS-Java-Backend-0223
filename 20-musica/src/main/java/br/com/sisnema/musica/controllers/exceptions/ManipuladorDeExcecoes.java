@@ -1,5 +1,6 @@
 package br.com.sisnema.musica.controllers.exceptions;
 
+import br.com.sisnema.musica.services.exceptions.IntegridadeBD;
 import br.com.sisnema.musica.services.exceptions.RecursoNaoEncontrado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,18 @@ public class ManipuladorDeExcecoes {
         erro.setTimestamp(Instant.now());
         erro.setStatus(status.value()); // 404
         erro.setErro("ERRO! ID NÃO EXISTENTE - 404.");
+        erro.setMessage(e.getMessage());
+        erro.setPath(r.getRequestURI());
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(IntegridadeBD.class)
+    public ResponseEntity<ErroPadrao> integridadeBD(IntegridadeBD e, HttpServletRequest r) {
+        HttpStatus status = HttpStatus.BAD_REQUEST; //
+        ErroPadrao erro = new ErroPadrao();
+        erro.setTimestamp(Instant.now());
+        erro.setStatus(status.value()); //
+        erro.setErro("ERRO! VIOLAÇÂO DE INTEGRIDADE.");
         erro.setMessage(e.getMessage());
         erro.setPath(r.getRequestURI());
         return ResponseEntity.status(status).body(erro);
