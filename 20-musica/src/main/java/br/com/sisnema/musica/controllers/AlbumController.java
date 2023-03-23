@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class AlbumController {
     }
 
     @PostMapping
-    public ResponseEntity<AlbumDto> inserir(@RequestBody AlbumDto dto) {
+    public ResponseEntity<AlbumDto> inserir(@RequestBody @Valid AlbumDto dto) {
         AlbumDto dtoRec = service.inserir(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dtoRec.getId()).toUri();
@@ -38,7 +39,7 @@ public class AlbumController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<AlbumDto> atualizar(@PathVariable Long id, @RequestBody AlbumDto dto) {
+    public ResponseEntity<AlbumDto> atualizar(@PathVariable Long id, @RequestBody @Valid AlbumDto dto) {
         AlbumDto dtoRec = service.atualizar(id, dto);
         return ResponseEntity.ok().body(dtoRec);
     }

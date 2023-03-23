@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MusicoController {
     }
 
     @PostMapping
-    public ResponseEntity<MusicoDto> inserir(@RequestBody MusicoDto dto) {
+    public ResponseEntity<MusicoDto> inserir(@RequestBody @Valid MusicoDto dto) {
         MusicoDto dtoRec = service.inserir(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dtoRec.getId()).toUri();
@@ -38,7 +39,7 @@ public class MusicoController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<MusicoDto> atualizar(@PathVariable Long id, @RequestBody MusicoDto dto) {
+    public ResponseEntity<MusicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid MusicoDto dto) {
         MusicoDto dtoRec = service.atualizar(id, dto);
         return ResponseEntity.ok().body(dtoRec);
     }

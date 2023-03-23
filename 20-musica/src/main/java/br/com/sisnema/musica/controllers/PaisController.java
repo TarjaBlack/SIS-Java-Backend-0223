@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class PaisController {
     }
 
     @PostMapping
-    public ResponseEntity<PaisDto> inserir(@RequestBody PaisDto dto) {
+    public ResponseEntity<PaisDto> inserir(@RequestBody @Valid PaisDto dto) {
         PaisDto dtoRec = service.inserir(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dtoRec.getId()).toUri();
@@ -44,7 +45,7 @@ public class PaisController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PaisDto> atualizar(@PathVariable Long id, @RequestBody PaisDto dto) {
+    public ResponseEntity<PaisDto> atualizar(@PathVariable Long id, @RequestBody @Valid PaisDto dto) {
         PaisDto dtoRec = service.atualizar(id, dto);
         return ResponseEntity.ok().body(dtoRec);
     }
