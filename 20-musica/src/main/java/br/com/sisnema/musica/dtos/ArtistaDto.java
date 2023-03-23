@@ -3,6 +3,7 @@ package br.com.sisnema.musica.dtos;
 import br.com.sisnema.musica.entities.Album;
 import br.com.sisnema.musica.entities.Artista;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,9 @@ public class ArtistaDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    @NotNull(message = "Campo obrigatório")
     private String nome;
+    @NotNull(message = "Campo obrigatório")
     private boolean banda;
     private Long pais_id;
     private List<AlbumDto> albumDtoList = new ArrayList<>();

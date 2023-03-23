@@ -1,8 +1,8 @@
 package br.com.sisnema.musica.dtos;
 
-import br.com.sisnema.musica.entities.Instrumento;
 import br.com.sisnema.musica.entities.Musico;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -12,8 +12,11 @@ public class MusicoDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    @NotNull(message = "Campo obrigatório")
     private String nome;
+    @NotNull(message = "Campo obrigatório")
     private String sobrenome;
+    @NotNull(message = "Campo obrigatório")
     private LocalDate dataNasc;
 
     private Set<InstrumentoDto> instrumentoDtos = new HashSet<>();

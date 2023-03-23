@@ -4,6 +4,8 @@ import br.com.sisnema.musica.services.exceptions.IntegridadeBD;
 import br.com.sisnema.musica.services.exceptions.RecursoNaoEncontrado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -27,7 +29,7 @@ public class ManipuladorDeExcecoes {
 
     @ExceptionHandler(IntegridadeBD.class)
     public ResponseEntity<ErroPadrao> integridadeBD(IntegridadeBD e, HttpServletRequest r) {
-        HttpStatus status = HttpStatus.BAD_REQUEST; //
+        HttpStatus status = HttpStatus.BAD_REQUEST; // 400
         ErroPadrao erro = new ErroPadrao();
         erro.setTimestamp(Instant.now());
         erro.setStatus(status.value()); //
@@ -37,4 +39,20 @@ public class ManipuladorDeExcecoes {
         return ResponseEntity.status(status).body(erro);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErroDeValidacao> validacao(MethodArgumentNotValidException e, HttpServletRequest r) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // 422
+        ErroDeValidacao err = new ErroDeValidacao();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setErro("Beans validation - Exceção de validação");
+        err.setMessage(e.getMessage());
+        err.setPath(r.getRequestURI());
+
+        for (FieldError f : e.getBindingResult().getFieldErrors()) {
+            err.addErro(f.getField(), f.getDefaultMessage());
+        }
+
+        return ResponseEntity.status(status).body(err);
+    }
 }

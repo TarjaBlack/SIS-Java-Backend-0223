@@ -1,15 +1,17 @@
 package br.com.sisnema.musica.dtos;
 
 import br.com.sisnema.musica.entities.Album;
-import br.com.sisnema.musica.entities.Pais;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class AlbumDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    @NotNull(message = "Campo obrigatório")
     private String titulo;
+    @NotNull(message = "Campo obrigatório")
     private Integer ano;
     private Long artista_id;
 
