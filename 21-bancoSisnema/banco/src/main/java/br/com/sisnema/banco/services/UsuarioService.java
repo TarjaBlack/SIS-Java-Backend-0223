@@ -6,11 +6,15 @@ import br.com.sisnema.banco.entities.Funcao;
 import br.com.sisnema.banco.entities.Usuario;
 import br.com.sisnema.banco.repositories.FuncaoRepository;
 import br.com.sisnema.banco.repositories.UsuarioRepository;
+import br.com.sisnema.banco.services.exceptions.IntegridadeBD;
 import br.com.sisnema.banco.services.exceptions.RecursoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,9 +52,30 @@ public class UsuarioService {
         return new UsuarioDto(entidade);
     }
 
-    // Atualizar
+    @Transactional
+    public UsuarioDto atualizar(Long id, UsuarioDto dto) {
+        try {
+            Usuario entidade = repository.getReferenceById(id);
+            copiarDtoParaEntidade(dto, entidade);
+            entidade = repository.save(entidade);
+            return new UsuarioDto(entidade);
+        }
+        catch (EntityNotFoundException e) {
+            throw new RecursoNaoEncontrado("Id não encontrado: " + id);
+        }
+    }
 
-    // Excluir
+    public void excluir(Long id) {
+        try {
+            repository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new RecursoNaoEncontrado("Id não encontrado para exclusão: " + id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new IntegridadeBD("Violação de integridade no banco de dados");
+        }
+    }
 
     private void copiarDtoParaEntidade(UsuarioDto dto, Usuario entidade) {
         entidade.setNome(dto.getNome());

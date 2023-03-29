@@ -1,5 +1,6 @@
 package br.com.sisnema.banco.controllers;
 
+import br.com.sisnema.banco.dtos.FuncaoDto;
 import br.com.sisnema.banco.dtos.UsuarioDto;
 import br.com.sisnema.banco.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,15 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(newDto);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UsuarioDto> atualizar(@PathVariable Long id, @RequestBody UsuarioDto dto) {
+        UsuarioDto newDto = service.atualizar(id, dto);
+        return ResponseEntity.ok().body(newDto);
+    }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }
