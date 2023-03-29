@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
     private String email;
     private String senha;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tb_usuario_funcao",
         joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name = "funcao_id"))

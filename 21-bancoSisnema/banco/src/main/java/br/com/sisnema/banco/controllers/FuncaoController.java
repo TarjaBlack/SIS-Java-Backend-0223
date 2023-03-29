@@ -4,11 +4,10 @@ import br.com.sisnema.banco.dtos.FuncaoDto;
 import br.com.sisnema.banco.services.FuncaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,5 +27,25 @@ public class FuncaoController {
     public ResponseEntity<FuncaoDto> buscarPorId(@PathVariable Long id) {
         FuncaoDto dto = service.procurarPorId(id);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping
+    public ResponseEntity<FuncaoDto> inserir(@RequestBody FuncaoDto dto) {
+        FuncaoDto newDto = service.inserir(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(newDto);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<FuncaoDto> atualizar(@PathVariable Long id, @RequestBody FuncaoDto dto) {
+        FuncaoDto newDto = service.atualizar(id, dto);
+        return ResponseEntity.ok().body(newDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }
