@@ -23,13 +23,14 @@ public class Conta {
     public Conta() {
     }
 
-    public Conta(Long id, Integer banco, String agencia, String numero, Double limite, Double saldo) {
+    public Conta(Long id, Integer banco, String agencia, String numero, Double limite, Double saldo, TipoConta tipoConta) {
         this.id = id;
         this.banco = banco;
         this.agencia = agencia;
         this.numero = numero;
         this.limite = limite;
         this.saldo = saldo;
+        this.tipoConta = tipoConta;
     }
 
     public Long getId() {
