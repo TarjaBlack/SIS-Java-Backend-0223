@@ -80,6 +80,14 @@ public class Conta {
         this.saldo = saldo;
     }
 
+    public TipoConta getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(TipoConta tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

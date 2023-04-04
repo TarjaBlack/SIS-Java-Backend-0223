@@ -1,7 +1,7 @@
 package br.com.sisnema.banco.controllers;
 
-import br.com.sisnema.banco.dtos.TipoContaDto;
-import br.com.sisnema.banco.services.TipoContaService;
+import br.com.sisnema.banco.dtos.ContaDto;
+import br.com.sisnema.banco.services.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,35 +11,35 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/tipocontas")
-public class TipoContaController {
+@RequestMapping(value = "/v1/contas")
+public class ContaController {
 
     @Autowired
-    private TipoContaService service;
+    private ContaService service;
 
     @GetMapping
-    public ResponseEntity<List<TipoContaDto>> buscarTodos() {
-        List<TipoContaDto> list = service.procurarTodos();
+    public ResponseEntity<List<ContaDto>> buscarTodos() {
+        List<ContaDto> list = service.procurarTodos();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TipoContaDto> buscarPorId(@PathVariable Long id) {
-        TipoContaDto dto = service.procurarPorId(id);
+    public ResponseEntity<ContaDto> buscarPorId(@PathVariable Long id) {
+        ContaDto dto = service.procurarPorId(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-    public ResponseEntity<TipoContaDto> inserir(@RequestBody TipoContaDto dto) {
-        TipoContaDto newDto = service.inserir(dto);
+    public ResponseEntity<ContaDto> inserir(@RequestBody ContaDto dto) {
+        ContaDto newDto = service.inserir(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TipoContaDto> atualizar(@PathVariable Long id, @RequestBody TipoContaDto dto) {
-        TipoContaDto newDto = service.atualizar(id, dto);
+    public ResponseEntity<ContaDto> atualizar(@PathVariable Long id, @RequestBody ContaDto dto) {
+        ContaDto newDto = service.atualizar(id, dto);
         return ResponseEntity.ok().body(newDto);
     }
 

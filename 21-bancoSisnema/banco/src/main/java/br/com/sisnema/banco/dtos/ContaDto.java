@@ -1,5 +1,7 @@
 package br.com.sisnema.banco.dtos;
 
+import br.com.sisnema.banco.entities.Conta;
+
 public class ContaDto {
 
     private Long id;
@@ -21,6 +23,16 @@ public class ContaDto {
         this.limite = limite;
         this.saldo = saldo;
         this.tipo_conta_id = tipo_conta_id;
+    }
+
+    public ContaDto(Conta entidade) {
+        this.id = entidade.getId();
+        this.banco = entidade.getBanco();
+        this.agencia = entidade.getAgencia();
+        this.numero = entidade.getNumero();
+        this.limite = entidade.getLimite();
+        this.saldo = entidade.getSaldo();
+        this.tipo_conta_id = entidade.getTipoConta().getId();
     }
 
     public Long getId() {

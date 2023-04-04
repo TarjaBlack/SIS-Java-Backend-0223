@@ -20,6 +20,10 @@ public class TipoConta {
     public TipoConta() {
     }
 
+    public TipoConta(Long id) {
+        this.id = id;
+    }
+
     public TipoConta(Long id, String tipo) {
         this.id = id;
         this.tipo = tipo;
