@@ -4,6 +4,8 @@ import br.com.sisnema.banco.dtos.FuncaoDto;
 import br.com.sisnema.banco.entities.Funcao;
 import br.com.sisnema.banco.factories.Factory;
 import br.com.sisnema.banco.repositories.FuncaoRepository;
+import br.com.sisnema.banco.services.exceptions.IntegridadeBD;
+import br.com.sisnema.banco.services.exceptions.RecursoNaoEncontrado;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,4 +82,62 @@ public class FuncaoServiceTests {
 
         Assertions.assertNotNull(resultado);
     }
+
+    @Test
+    public void procurarPorIdDeveriaRetornarUmaExcecaoQuandoOIdNaoExistir() {
+        Assertions.assertThrows(RecursoNaoEncontrado.class, () -> {
+            service.procurarPorId(idNaoExistente);
+        });
+
+        Mockito.verify(repository, times(1)).findById(idNaoExistente);
+    }
+
+    @Test
+    public void salvarDeveriaPersistirComAutoincrementoQuandoOIdForNulo() {
+        FuncaoDto dto = funcaoDto;
+        dto.setId(null);
+        FuncaoDto resultado = service.inserir(dto);
+
+        Assertions.assertNotNull(resultado);
+    }
+
+    @Test
+    public void atualizarDeveriaPersistirNovamenteOMesmoObjeto() {
+        FuncaoDto resultado = service.atualizar(idExistente, funcaoDto);
+
+        Assertions.assertNotNull(resultado);
+    }
+
+    @Test
+    public void atualizarDeveriaLancarUmaExcecaoQuandoOidNaoExistir() {
+        Assertions.assertThrows(RecursoNaoEncontrado.class, () -> {
+            service.atualizar(idNaoExistente, funcaoDto);
+        });
+    }
+
+    @Test
+    public void excluirPorIdDeveriaDeletarORegistroQuandoOIdExistir() {
+        Assertions.assertDoesNotThrow(() -> {
+            service.excluir(idExistente);
+        });
+    }
+
+    @Test
+    public void excluirPorIdDeveriaLancarExcecaoSeOIdNaoExistir() {
+        Assertions.assertThrows(RecursoNaoEncontrado.class, () -> {
+            service.excluir(idNaoExistente);
+        });
+
+        Mockito.verify(repository, times(1)).deleteById(idNaoExistente);
+    }
+
+    @Test
+    public void excluirPorIdDeveriaLancarExcecaoDeIntegridadeQuandoOIdForUtilizadoEmOutraTabela() {
+        Assertions.assertThrows(IntegridadeBD.class, () -> {
+            service.excluir(idChaveEstrangeira);
+        });
+
+        Mockito.verify(repository, times(1)).deleteById(idChaveEstrangeira);
+    }
+
 }
