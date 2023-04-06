@@ -9,6 +9,11 @@ public class TemposModernos implements FilmeProblema {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void aumentarVolume() {
 
     }

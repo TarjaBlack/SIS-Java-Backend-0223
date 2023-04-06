@@ -11,6 +11,11 @@ public class Matrix implements FilmeProblema {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void aumentarVolume() {
 
     }
