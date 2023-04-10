@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class FuncaoServiceTests {
@@ -53,19 +53,19 @@ public class FuncaoServiceTests {
         funcaoList = new ArrayList<>();
 
         // Simulações da camada de Repository - MOCK
-        Mockito.when(repository.findAll()).thenReturn(funcaoList);
+        when(repository.findAll()).thenReturn(funcaoList);
 
-        Mockito.when(repository.findById(idExistente)).thenReturn(Optional.of(funcao));
-        Mockito.when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
+        when(repository.findById(idExistente)).thenReturn(Optional.of(funcao));
+        when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
 
-        Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(funcao);
+        when(repository.save(ArgumentMatchers.any())).thenReturn(funcao);
 
-        Mockito.when(repository.getReferenceById(idExistente)).thenReturn(funcao);
-        Mockito.when(repository.getReferenceById(idNaoExistente)).thenThrow(EntityNotFoundException.class);
+        when(repository.getReferenceById(idExistente)).thenReturn(funcao);
+        when(repository.getReferenceById(idNaoExistente)).thenThrow(EntityNotFoundException.class);
 
-        Mockito.doNothing().when(repository).deleteById(idExistente);
-        Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(idNaoExistente);
-        Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(idChaveEstrangeira);
+        doNothing().when(repository).deleteById(idExistente);
+        doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(idNaoExistente);
+        doThrow(DataIntegrityViolationException.class).when(repository).deleteById(idChaveEstrangeira);
     }
 
     @Test

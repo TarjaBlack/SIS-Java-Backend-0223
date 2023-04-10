@@ -59,13 +59,25 @@ public class FuncaoControllerTests {
 
     @Test
     public void procurarTodosDeveriaRetornarUmaListaDeDtos() throws Exception {
-        ResultActions resultado = mockMvc.perform(get("/v1/funcoes")
-                .accept(MediaType.APPLICATION_JSON));
+        ResultActions resultado = mockMvc.perform(
+                get("/v1/funcoes")
+                .accept(MediaType.APPLICATION_JSON)
+        );
 
         resultado.andExpect(status().isOk());
     }
 
-    // Procurar por ID
+    @Test
+    public void procurarPorIdDeveriaRetornarUm200QuandoOIdExistir() throws Exception {
+        ResultActions resultado = mockMvc.perform(
+                get("/v1/funcoes/{id}", idExistente)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        resultado.andExpect(status().isOk());
+        resultado.andExpect(jsonPath("$.id").exists());
+        resultado.andExpect(jsonPath("$.autoridade").exists());
+    }
 
     // Procurar por ID com Exceção
 
