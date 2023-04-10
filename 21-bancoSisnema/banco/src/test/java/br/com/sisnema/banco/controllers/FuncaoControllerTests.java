@@ -5,15 +5,20 @@ import br.com.sisnema.banco.factories.Factory;
 import br.com.sisnema.banco.services.FuncaoService;
 import br.com.sisnema.banco.services.exceptions.RecursoNaoEncontrado;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(FuncaoController.class)
 public class FuncaoControllerTests {
@@ -52,5 +57,26 @@ public class FuncaoControllerTests {
         doThrow(RecursoNaoEncontrado.class).when(service).excluir(idNaoExistente);
     }
 
+    @Test
+    public void procurarTodosDeveriaRetornarUmaListaDeDtos() throws Exception {
+        ResultActions resultado = mockMvc.perform(get("/v1/funcoes")
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultado.andExpect(status().isOk());
+    }
+
+    // Procurar por ID
+
+    // Procurar por ID com Exceção
+
+    // Inserir
+
+    // Atualizar
+
+    // Atualizar com Exceção
+
+    // Excluir
+
+    // Excluir com exceção
 
 }
