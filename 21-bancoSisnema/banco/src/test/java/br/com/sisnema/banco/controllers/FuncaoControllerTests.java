@@ -4,6 +4,7 @@ import br.com.sisnema.banco.dtos.FuncaoDto;
 import br.com.sisnema.banco.factories.Factory;
 import br.com.sisnema.banco.services.FuncaoService;
 import br.com.sisnema.banco.services.exceptions.RecursoNaoEncontrado;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class FuncaoControllerTests {
 
     @MockBean
     private FuncaoService service;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private Long idExistente;
     private Long idNaoExistente;
@@ -79,16 +83,80 @@ public class FuncaoControllerTests {
         resultado.andExpect(jsonPath("$.autoridade").exists());
     }
 
-    // Procurar por ID com Exceção
+    @Test
+    public void procurarPorIdDeveriaRetornarUm404QuandoOIdNaoExistir() throws Exception {
+        ResultActions resultado = mockMvc.perform(
+                get("/v1/funcoes/{id}", idNaoExistente)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
 
-    // Inserir
+        resultado.andExpect(status().isNotFound());
+    }
 
-    // Atualizar
+    @Test
+    public void  inserirDeveriaRetornarUm201Dto() throws Exception {
 
-    // Atualizar com Exceção
+        String jsonBody = objectMapper.writeValueAsString(funcaoDto);
 
-    // Excluir
+        ResultActions resultado = mockMvc.perform(
+                post("/v1/funcoes")
+                        .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
 
-    // Excluir com exceção
+        resultado.andExpect(status().isCreated());
+        resultado.andExpect(jsonPath("$.id").exists());
+        resultado.andExpect(jsonPath("$.autoridade").exists());
+    }
+
+    @Test
+    public void atualizarDeveriaRetornarUm200DtoQuandoOIdExistir() throws Exception {
+
+        String jsonBody = objectMapper.writeValueAsString(funcaoDto);
+
+        ResultActions resultado = mockMvc.perform(
+                put("/v1/funcoes/{id}", idExistente)
+                        .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        resultado.andExpect(status().isOk());
+        resultado.andExpect(jsonPath("$.id").exists());
+        resultado.andExpect(jsonPath("$.autoridade").exists());
+    }
+
+    @Test
+    public void atualizarDeveriaRetornarUm404DtoQuandoOIdNaoExistir() throws Exception {
+
+        String jsonBody = objectMapper.writeValueAsString(funcaoDto);
+
+        ResultActions resultado = mockMvc.perform(
+                put("/v1/funcoes/{id}", idNaoExistente)
+                        .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        resultado.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void excluirDeveriaRetornarUm204QuandoOIdExistir() throws Exception {
+        ResultActions resultado = mockMvc.perform(
+                delete("/v1/funcoes/{id}", idExistente)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        resultado.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void excluirDeveriaRetornarUm404QuandoOIdExistir() throws Exception {
+        ResultActions resultado = mockMvc.perform(
+                delete("/v1/funcoes/{id}", idNaoExistente)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        resultado.andExpect(status().isNotFound());
+    }
 
 }
