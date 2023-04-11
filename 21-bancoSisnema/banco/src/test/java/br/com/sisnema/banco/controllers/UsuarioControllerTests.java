@@ -1,8 +1,8 @@
 package br.com.sisnema.banco.controllers;
 
-import br.com.sisnema.banco.dtos.FuncaoDto;
+import br.com.sisnema.banco.dtos.UsuarioDto;
 import br.com.sisnema.banco.factories.Factory;
-import br.com.sisnema.banco.services.FuncaoService;
+import br.com.sisnema.banco.services.UsuarioService;
 import br.com.sisnema.banco.services.exceptions.RecursoNaoEncontrado;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,40 +19,41 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(FuncaoController.class)
-public class FuncaoControllerTests {
+@WebMvcTest(UsuarioController.class)
+public class UsuarioControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private FuncaoService service;
+    private UsuarioService service;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     private Long idExistente;
     private Long idNaoExistente;
-    private FuncaoDto funcaoDto;
-    private List<FuncaoDto> funcaoDtoList;
+    private UsuarioDto usuarioDto;
+    private List<UsuarioDto> usuarioDtoList;
 
     @BeforeEach
     void Setup() throws Exception {
         idExistente = 1L;
         idNaoExistente = 999L;
-        funcaoDto = Factory.criarFuncaoDto();
-        funcaoDtoList = new ArrayList<>();
+        usuarioDto = Factory.criarUsuarioDto();
+        usuarioDtoList = new ArrayList<>();
 
-        when(service.procurarTodos()).thenReturn(funcaoDtoList);
+        when(service.procurarTodos()).thenReturn(usuarioDtoList);
 
-        when(service.procurarPorId(idExistente)).thenReturn(funcaoDto);
+        when(service.procurarPorId(idExistente)).thenReturn(usuarioDto);
         when(service.procurarPorId(idNaoExistente)).thenThrow(RecursoNaoEncontrado.class);
 
-        when(service.inserir(any())).thenReturn(funcaoDto);
+        when(service.inserir(any())).thenReturn(usuarioDto);
 
-        when(service.atualizar(eq(idExistente), any())).thenReturn(funcaoDto);
+        when(service.atualizar(eq(idExistente), any())).thenReturn(usuarioDto);
         when(service.atualizar(eq(idNaoExistente), any())).thenThrow(RecursoNaoEncontrado.class);
 
         doNothing().when(service).excluir(idExistente);
@@ -62,7 +63,7 @@ public class FuncaoControllerTests {
     @Test
     public void procurarTodosDeveriaRetornarUmaListaDeDtos() throws Exception {
         ResultActions resultado = mockMvc.perform(
-                get("/v1/funcoes")
+                get("/v1/usuarios")
                 .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -72,19 +73,21 @@ public class FuncaoControllerTests {
     @Test
     public void procurarPorIdDeveriaRetornarUm200QuandoOIdExistir() throws Exception {
         ResultActions resultado = mockMvc.perform(
-                get("/v1/funcoes/{id}", idExistente)
+                get("/v1/usuarios/{id}", idExistente)
                 .accept(MediaType.APPLICATION_JSON)
         );
 
         resultado.andExpect(status().isOk());
         resultado.andExpect(jsonPath("$.id").exists());
-        resultado.andExpect(jsonPath("$.autoridade").exists());
+        resultado.andExpect(jsonPath("$.nome").exists());
+        resultado.andExpect(jsonPath("$.sobrenome").exists());
+        resultado.andExpect(jsonPath("$.email").exists());
     }
 
     @Test
     public void procurarPorIdDeveriaRetornarUm404QuandoOIdNaoExistir() throws Exception {
         ResultActions resultado = mockMvc.perform(
-                get("/v1/funcoes/{id}", idNaoExistente)
+                get("/v1/usuarios/{id}", idNaoExistente)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -94,42 +97,46 @@ public class FuncaoControllerTests {
     @Test
     public void  inserirDeveriaRetornarUm201Dto() throws Exception {
 
-        String jsonBody = objectMapper.writeValueAsString(funcaoDto);
+        String jsonBody = objectMapper.writeValueAsString(usuarioDto);
 
         ResultActions resultado = mockMvc.perform(
-                post("/v1/funcoes")
+                post("/v1/usuarios")
                         .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
         resultado.andExpect(status().isCreated());
         resultado.andExpect(jsonPath("$.id").exists());
-        resultado.andExpect(jsonPath("$.autoridade").exists());
+        resultado.andExpect(jsonPath("$.nome").exists());
+        resultado.andExpect(jsonPath("$.sobrenome").exists());
+        resultado.andExpect(jsonPath("$.email").exists());
     }
 
     @Test
     public void atualizarDeveriaRetornarUm200DtoQuandoOIdExistir() throws Exception {
 
-        String jsonBody = objectMapper.writeValueAsString(funcaoDto);
+        String jsonBody = objectMapper.writeValueAsString(usuarioDto);
 
         ResultActions resultado = mockMvc.perform(
-                put("/v1/funcoes/{id}", idExistente)
+                put("/v1/usuarios/{id}", idExistente)
                         .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
         resultado.andExpect(status().isOk());
         resultado.andExpect(jsonPath("$.id").exists());
-        resultado.andExpect(jsonPath("$.autoridade").exists());
+        resultado.andExpect(jsonPath("$.nome").exists());
+        resultado.andExpect(jsonPath("$.sobrenome").exists());
+        resultado.andExpect(jsonPath("$.email").exists());
     }
 
     @Test
     public void atualizarDeveriaRetornarUm404DtoQuandoOIdNaoExistir() throws Exception {
 
-        String jsonBody = objectMapper.writeValueAsString(funcaoDto);
+        String jsonBody = objectMapper.writeValueAsString(usuarioDto);
 
         ResultActions resultado = mockMvc.perform(
-                put("/v1/funcoes/{id}", idNaoExistente)
+                put("/v1/usuarios/{id}", idNaoExistente)
                         .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
@@ -140,7 +147,7 @@ public class FuncaoControllerTests {
     @Test
     public void excluirDeveriaRetornarUm204QuandoOIdExistir() throws Exception {
         ResultActions resultado = mockMvc.perform(
-                delete("/v1/funcoes/{id}", idExistente)
+                delete("/v1/usuarios/{id}", idExistente)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -150,7 +157,7 @@ public class FuncaoControllerTests {
     @Test
     public void excluirDeveriaRetornarUm404QuandoOIdExistir() throws Exception {
         ResultActions resultado = mockMvc.perform(
-                delete("/v1/funcoes/{id}", idNaoExistente)
+                delete("/v1/usuarios/{id}", idNaoExistente)
                         .accept(MediaType.APPLICATION_JSON)
         );
 

@@ -37,7 +37,6 @@ public class FuncaoServiceTests {
     private Long idExistente;
     private Long idNaoExistente;
     private Long idChaveEstrangeira;
-    private Long contagemTotalDeFuncoes;
     private Funcao funcao;
     private FuncaoDto funcaoDto;
     private List<Funcao> funcaoList;
@@ -47,7 +46,6 @@ public class FuncaoServiceTests {
         idExistente = 1L;
         idNaoExistente = 999L;
         idChaveEstrangeira = 2L;
-        contagemTotalDeFuncoes = 3L;
         funcao = Factory.criarFuncao();
         funcaoDto = Factory.criarFuncaoDto();
         funcaoList = new ArrayList<>();

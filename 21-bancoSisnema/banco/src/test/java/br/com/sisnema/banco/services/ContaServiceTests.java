@@ -1,9 +1,10 @@
 package br.com.sisnema.banco.services;
 
-import br.com.sisnema.banco.dtos.TipoContaDto;
-import br.com.sisnema.banco.entities.TipoConta;
+import br.com.sisnema.banco.dtos.ContaDto;
+import br.com.sisnema.banco.entities.Conta;
 import br.com.sisnema.banco.factories.Factory;
-import br.com.sisnema.banco.repositories.TipoContaRepository;
+import br.com.sisnema.banco.factories.FactoryFK;
+import br.com.sisnema.banco.repositories.ContaRepository;
 import br.com.sisnema.banco.services.exceptions.IntegridadeBD;
 import br.com.sisnema.banco.services.exceptions.RecursoNaoEncontrado;
 import org.junit.jupiter.api.Assertions;
@@ -23,52 +24,54 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class TipoContaServiceTests {
+public class ContaServiceTests {
 
     @InjectMocks
-    private TipoContaService service;
+    private ContaService service;
 
     @Mock
-    private TipoContaRepository repository;
+    private ContaRepository repository;
 
     private Long idExistente;
     private Long idNaoExistente;
     private Long idChaveEstrangeira;
-    private TipoConta tipoConta;
-    private TipoContaDto tipoContaDto;
-    private List<TipoConta> tipoContaList;
+    private Long contagemTotalDeContas;
+    private Conta conta;
+    private ContaDto contaDto;
+    private List<Conta> contaList;
 
     @BeforeEach
     void Setup() throws Exception {
         idExistente = 1L;
         idNaoExistente = 999L;
         idChaveEstrangeira = 2L;
-        tipoConta = Factory.criarTipoConta();
-        tipoContaDto = Factory.criarTipoContaDto();
-        tipoContaList = new ArrayList<>();
+        contagemTotalDeContas = 5L;
+        conta = FactoryFK.criarConta();
+        contaDto = FactoryFK.criarContaDto();
+        contaList = new ArrayList<>();
 
         // Simulações da camada de Repository - MOCK
-        Mockito.when(repository.findAll()).thenReturn(tipoContaList);
+        when(repository.findAll()).thenReturn(contaList);
 
-        Mockito.when(repository.findById(idExistente)).thenReturn(Optional.of(tipoConta));
-        Mockito.when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
+        when(repository.findById(idExistente)).thenReturn(Optional.of(conta));
+        when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
 
-        Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(tipoConta);
+        when(repository.save(ArgumentMatchers.any())).thenReturn(conta);
 
-        Mockito.when(repository.getReferenceById(idExistente)).thenReturn(tipoConta);
-        Mockito.when(repository.getReferenceById(idNaoExistente)).thenThrow(EntityNotFoundException.class);
+        when(repository.getReferenceById(idExistente)).thenReturn(conta);
+        when(repository.getReferenceById(idNaoExistente)).thenThrow(EntityNotFoundException.class);
 
-        Mockito.doNothing().when(repository).deleteById(idExistente);
-        Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(idNaoExistente);
-        Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(idChaveEstrangeira);
+        doNothing().when(repository).deleteById(idExistente);
+        doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(idNaoExistente);
+        doThrow(DataIntegrityViolationException.class).when(repository).deleteById(idChaveEstrangeira);
     }
 
     @Test
     public void procurarTodosDeveriaRetornarUmaListaDeObjetos() {
-        List<TipoContaDto> list = service.procurarTodos();
+        List<ContaDto> list = service.procurarTodos();
 
         Assertions.assertNotNull(list);
         Mockito.verify(repository, times(1)).findAll();
@@ -76,7 +79,7 @@ public class TipoContaServiceTests {
 
     @Test
     public void procurarPorIdDeveriaRetornarUmDtoQuandoOIdExistir() {
-        TipoContaDto resultado = service.procurarPorId(idExistente);
+        ContaDto resultado = service.procurarPorId(idExistente);
 
         Assertions.assertNotNull(resultado);
     }
@@ -92,16 +95,16 @@ public class TipoContaServiceTests {
 
     @Test
     public void salvarDeveriaPersistirComAutoincrementoQuandoOIdForNulo() {
-        TipoContaDto dto = tipoContaDto;
+        ContaDto dto = contaDto;
         dto.setId(null);
-        TipoContaDto resultado = service.inserir(dto);
+        ContaDto resultado = service.inserir(dto);
 
         Assertions.assertNotNull(resultado);
     }
 
     @Test
     public void atualizarDeveriaPersistirNovamenteOMesmoObjeto() {
-        TipoContaDto resultado = service.atualizar(idExistente, tipoContaDto);
+        ContaDto resultado = service.atualizar(idExistente, contaDto);
 
         Assertions.assertNotNull(resultado);
     }
@@ -109,7 +112,7 @@ public class TipoContaServiceTests {
     @Test
     public void atualizarDeveriaLancarUmaExcecaoQuandoOidNaoExistir() {
         Assertions.assertThrows(RecursoNaoEncontrado.class, () -> {
-            service.atualizar(idNaoExistente, tipoContaDto);
+            service.atualizar(idNaoExistente, contaDto);
         });
     }
 
