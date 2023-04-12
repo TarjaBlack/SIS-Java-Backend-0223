@@ -11,11 +11,12 @@ public class ContaDto {
     private Double limite;
     private Double saldo;
     private Long tipo_conta_id;
+    private Long cliente_id;
 
     public ContaDto() {
     }
 
-    public ContaDto(Long id, Integer banco, String agencia, String numero, Double limite, Double saldo, Long tipo_conta_id) {
+    public ContaDto(Long id, Integer banco, String agencia, String numero, Double limite, Double saldo, Long tipo_conta_id, Long cliente_id) {
         this.id = id;
         this.banco = banco;
         this.agencia = agencia;
@@ -23,6 +24,7 @@ public class ContaDto {
         this.limite = limite;
         this.saldo = saldo;
         this.tipo_conta_id = tipo_conta_id;
+        this.cliente_id = cliente_id;
     }
 
     public ContaDto(Conta entidade) {
@@ -33,6 +35,7 @@ public class ContaDto {
         this.limite = entidade.getLimite();
         this.saldo = entidade.getSaldo();
         this.tipo_conta_id = entidade.getTipoConta().getId();
+        this.cliente_id = entidade.getCliente().getId();
     }
 
     public Long getId() {
@@ -89,5 +92,13 @@ public class ContaDto {
 
     public void setTipo_conta_id(Long tipo_conta_id) {
         this.tipo_conta_id = tipo_conta_id;
+    }
+
+    public Long getCliente_id() {
+        return cliente_id;
+    }
+
+    public void setCliente_id(Long cliente_id) {
+        this.cliente_id = cliente_id;
     }
 }

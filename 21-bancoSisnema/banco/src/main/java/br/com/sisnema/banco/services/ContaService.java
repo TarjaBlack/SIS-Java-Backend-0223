@@ -1,6 +1,7 @@
 package br.com.sisnema.banco.services;
 
 import br.com.sisnema.banco.dtos.ContaDto;
+import br.com.sisnema.banco.entities.Cliente;
 import br.com.sisnema.banco.entities.Conta;
 import br.com.sisnema.banco.entities.TipoConta;
 import br.com.sisnema.banco.repositories.ContaRepository;
@@ -71,7 +72,6 @@ public class ContaService {
         }
     }
 
-
     private void copiarDtoParaEntidade(ContaDto dto, Conta entidade) {
         entidade.setBanco(dto.getBanco());
         entidade.setAgencia(dto.getAgencia());
@@ -79,5 +79,6 @@ public class ContaService {
         entidade.setLimite(dto.getLimite());
         entidade.setSaldo(dto.getSaldo());
         entidade.setTipoConta(new TipoConta(dto.getTipo_conta_id()));
+        entidade.setCliente(new Cliente(dto.getCliente_id()));
     }
 }

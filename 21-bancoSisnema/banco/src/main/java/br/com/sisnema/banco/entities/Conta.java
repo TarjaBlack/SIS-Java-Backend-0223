@@ -20,10 +20,14 @@ public class Conta {
     @JoinColumn(name = "tipo_conta_id")
     private TipoConta tipoConta;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
     public Conta() {
     }
 
-    public Conta(Long id, Integer banco, String agencia, String numero, Double limite, Double saldo, TipoConta tipoConta) {
+    public Conta(Long id, Integer banco, String agencia, String numero, Double limite, Double saldo, TipoConta tipoConta, Cliente cliente) {
         this.id = id;
         this.banco = banco;
         this.agencia = agencia;
@@ -31,6 +35,7 @@ public class Conta {
         this.limite = limite;
         this.saldo = saldo;
         this.tipoConta = tipoConta;
+        this.cliente = cliente;
     }
 
     public Long getId() {
@@ -89,6 +94,14 @@ public class Conta {
         this.tipoConta = tipoConta;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,6 +124,8 @@ public class Conta {
                 ", numero='" + numero + '\'' +
                 ", limite=" + limite +
                 ", saldo=" + saldo +
+                ", tipoConta=" + tipoConta +
+                ", cliente=" + cliente +
                 '}';
     }
 }
