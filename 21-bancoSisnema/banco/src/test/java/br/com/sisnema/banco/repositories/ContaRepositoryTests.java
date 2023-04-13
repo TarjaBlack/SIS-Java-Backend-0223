@@ -1,7 +1,6 @@
 package br.com.sisnema.banco.repositories;
 
 import br.com.sisnema.banco.entities.Conta;
-import br.com.sisnema.banco.factories.Factory;
 import br.com.sisnema.banco.factories.FactoryFK;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

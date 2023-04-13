@@ -38,7 +38,7 @@ public class Factory {
     }
 
     public static Cliente criarCliente() {
-        Cliente cliente = new Cliente(4L, "Auguste", "Comte", LocalDate.of(1885, 02, 02), "comte@gmail.com", "51 99344-2224");
+        Cliente cliente = new Cliente(3L, "Auguste", "Comte", LocalDate.of(1885, 02, 02), "comte@gmail.com", "51 99344-2224");
         return cliente;
     }
 
