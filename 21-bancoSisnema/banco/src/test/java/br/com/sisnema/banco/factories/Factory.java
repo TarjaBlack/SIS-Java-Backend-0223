@@ -1,8 +1,6 @@
 package br.com.sisnema.banco.factories;
 
-import br.com.sisnema.banco.dtos.FuncaoDto;
-import br.com.sisnema.banco.dtos.TipoContaDto;
-import br.com.sisnema.banco.dtos.UsuarioDto;
+import br.com.sisnema.banco.dtos.*;
 import br.com.sisnema.banco.entities.*;
 
 import java.time.LocalDate;
@@ -44,12 +42,18 @@ public class Factory {
         return cliente;
     }
 
-    // ClienteDto
+    public static ClienteDto criarClienteDto() {
+        Cliente cliente = criarCliente();
+        return new ClienteDto(cliente);
+    }
 
     public static Endereco criarEndereco() {
         Endereco endereco = new Endereco(4L, "Av. Bento Gonçalves", "2542", "N/A", "Centro", "96709-411", "Pelotas", "RS");
         return endereco;
     }
 
-    // EnderecoDto
+    public static EnderecoDto criarEnderecoDto() {
+        Endereco endereco = criarEndereco();
+        return new EnderecoDto(endereco);
+    }
 }

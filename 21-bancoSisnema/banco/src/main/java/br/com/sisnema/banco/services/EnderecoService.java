@@ -41,6 +41,7 @@ public class EnderecoService {
     public EnderecoDto inserir(EnderecoDto dto) {
         Endereco entidade = new Endereco();
         copiarDtoParaEntidade(dto, entidade);
+        entidade = repository.save(entidade);
         return new EnderecoDto(entidade);
     }
 
@@ -49,6 +50,7 @@ public class EnderecoService {
         try {
             Endereco entidade = repository.getReferenceById(id);
             copiarDtoParaEntidade(dto, entidade);
+            entidade = repository.save(entidade);
             return new EnderecoDto(entidade);
         }
         catch (EntityNotFoundException e) {
